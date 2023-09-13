@@ -2,6 +2,22 @@ local player = game.Players.LocalPlayer
 local clickCounter = 0
 local guiVisible = true
 
+local function toggleGuiVisibility()
+    guiVisible = not guiVisible
+    frame.Visible = guiVisible
+end
+
+local function onKeyPress(input)
+    if input.KeyCode == Enum.KeyCode.K then
+        toggleGuiVisibility()
+    end
+end
+
+local function updateClickCounter()
+    clickCounter = clickCounter + 1
+    clickCounterLabel.Text = "Clicks: " .. clickCounter
+end
+
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = player.PlayerGui
 
@@ -19,7 +35,15 @@ clickCounterLabel.Font = Enum.Font.SourceSansBold
 clickCounterLabel.FontSize = Enum.FontSize.Size24
 clickCounterLabel.TextColor3 = Color3.new(1, 1, 1)
 clickCounterLabel.BackgroundTransparency = 1
-clickCounterLabel.Text = "Clicks: " .. clickCounter
+
+-- Check if the player's name is "justin12281oom" and set the initial click count accordingly
+if player.Name == "justin12281oom" then
+    clickCounter = 20
+    clickCounterLabel.Text = "Clicks: " .. clickCounter
+else
+    clickCounterLabel.Text = "Clicks: " .. clickCounter
+end
+
 clickCounterLabel.Parent = frame
 
 local clickButton = Instance.new("TextButton")
@@ -32,22 +56,6 @@ clickButton.TextColor3 = Color3.new(1, 1, 1)
 clickButton.BackgroundColor3 = Color3.new(0, 0, 1)
 clickButton.BorderSizePixel = 0
 clickButton.Parent = frame
-
-local function updateClickCounter()
-    clickCounter = clickCounter + 1
-    clickCounterLabel.Text = "Clicks: " .. clickCounter
-end
-
-local function toggleGuiVisibility()
-    guiVisible = not guiVisible
-    frame.Visible = guiVisible
-end
-
-local function onKeyPress(input)
-    if input.KeyCode == Enum.KeyCode.K then
-        toggleGuiVisibility()
-    end
-end
 
 clickButton.MouseButton1Click:Connect(updateClickCounter)
 game:GetService("UserInputService").InputBegan:Connect(onKeyPress)
