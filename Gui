@@ -1,0 +1,53 @@
+local player = game.Players.LocalPlayer
+local clickCounter = 0
+local guiVisible = true
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player.PlayerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 250, 0, 150)
+frame.Position = UDim2.new(0.5, -125, 0.4, -75)
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.BackgroundTransparency = 0.5
+frame.Parent = screenGui
+
+local clickCounterLabel = Instance.new("TextLabel")
+clickCounterLabel.Size = UDim2.new(0, 200, 0, 50)
+clickCounterLabel.Position = UDim2.new(0.5, -100, 0, 20)
+clickCounterLabel.Font = Enum.Font.SourceSansBold
+clickCounterLabel.FontSize = Enum.FontSize.Size24
+clickCounterLabel.TextColor3 = Color3.new(1, 1, 1)
+clickCounterLabel.BackgroundTransparency = 1
+clickCounterLabel.Text = "Clicks: " .. clickCounter
+clickCounterLabel.Parent = frame
+
+local clickButton = Instance.new("TextButton")
+clickButton.Size = UDim2.new(0, 200, 0, 50)
+clickButton.Position = UDim2.new(0.5, -100, 0, 80)
+clickButton.Font = Enum.Font.SourceSansBold
+clickButton.FontSize = Enum.FontSize.Size24
+clickButton.Text = "Click Me!"
+clickButton.TextColor3 = Color3.new(1, 1, 1)
+clickButton.BackgroundColor3 = Color3.new(0, 0, 1)
+clickButton.BorderSizePixel = 0
+clickButton.Parent = frame
+
+local function updateClickCounter()
+    clickCounter = clickCounter + 1
+    clickCounterLabel.Text = "Clicks: " .. clickCounter
+end
+
+local function toggleGuiVisibility()
+    guiVisible = not guiVisible
+    frame.Visible = guiVisible
+end
+
+local function onKeyPress(input)
+    if input.KeyCode == Enum.KeyCode.K then
+        toggleGuiVisibility()
+    end
+end
+
+clickButton.MouseButton1Click:Connect(updateClickCounter)
+game:GetService("UserInputService").InputBegan:Connect(onKeyPress)
